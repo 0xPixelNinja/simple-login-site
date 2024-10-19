@@ -1,10 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
+const authRoutes = require('./routes/api');
 
-app.use(express.json()); // Ok, i am learning it is for prasing the JSON ??
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+app.use('/api/auth', authRoutes); // ok, got it that's how to add the routes
+
 
 // ofc, to connect to mongodb, okkk
 mongoose.connect(process.env.MONGO_URI)
@@ -13,7 +18,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // api route in okkk
 app.get('/', (req, res) => {
-  res.send('Hello world, it\'s me Rakesh (Node.js Beginner)...');
+  res.send('Hello world, it\'s me (Node.js Beginner)...');
 });
 
 app.listen(PORT, () => {
